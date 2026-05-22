@@ -1,35 +1,50 @@
-
-
 let books = [];
 
 
 
-// BOOK CONSTRUCTOR
-function Book(title, author, pages, description, read){
+// BOOK CLASS
+class Book {
 
-     this.id =
-      Date.now().toString() +
-      Math.random().toString(16).slice(2);
+    constructor(
+        title,
+        author,
+        pages,
+        description,
+        read
+    ){
 
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.description = description;
-    this.read = read;
+        this.id =
+            Date.now().toString() +
+            Math.random()
+            .toString(16)
+            .slice(2);
+
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.description = description;
+        this.read = read;
+    }
+
+
+
+    // TOGGLE READ STATUS
+    toggleRead(){
+
+        this.read = !this.read;
+    }
 }
 
 
 
-// TOGGLE READ STATUS
-Book.prototype.toggleRead = function(){
-
-    this.read = !this.read;
-};
-
-
-
 // ADD BOOK
-function addBook(title, author, pages, description, read){
+function addBook(
+    title,
+    author,
+    pages,
+    description,
+    read
+){
 
     const newBook = new Book(
         title,
@@ -52,6 +67,8 @@ function displayBooks(){
     const booksGrid =
         document.querySelector(".books-grid");
 
+
+
     booksGrid.innerHTML = "";
 
 
@@ -70,14 +87,12 @@ function displayBooks(){
 
 
 
-        card.setAttribute(
-            "data-id",
-            book.id
-        );
+        card.dataset.id = book.id;
 
 
 
         card.innerHTML = `
+
             <h3>${book.title}</h3>
 
             <p>${book.author}</p>
@@ -108,7 +123,7 @@ function displayBooks(){
 
 
 
-        // REMOVE BUTTON
+        // REMOVE
         card
             .querySelector(".remove-btn")
             .addEventListener("click", () => {
@@ -118,7 +133,7 @@ function displayBooks(){
 
 
 
-        // TOGGLE BUTTON
+        // TOGGLE
         card
             .querySelector(".toggle-btn")
             .addEventListener("click", () => {
@@ -139,14 +154,12 @@ function displayBooks(){
 // REMOVE BOOK
 function removeBook(id){
 
-     books.filter(
+    books = books.filter(
         (book) => book.id !== id
     );
 
-
     displayBooks();
 }
-
 
 
 // DIALOG + FORM

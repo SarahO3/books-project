@@ -154,9 +154,9 @@ function displayBooks(){
 // REMOVE BOOK
 function removeBook(id){
 
-    books = books.filter(
-        (book) => book.id !== id
-    );
+  
+    books = books.filter(book => book.id !== id);
+
 
     displayBooks();
 }

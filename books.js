@@ -1,7 +1,5 @@
 let books = [];
 
-
-
 // BOOK CLASS
 class Book {
 
@@ -44,7 +42,9 @@ function addBook(
     pages,
     description,
     read
-){
+)
+
+{
 
     const newBook = new Book(
         title,
@@ -173,6 +173,11 @@ const form =
     document.getElementById("book-form");
 
 
+// select form inputs for validation 
+const titleInput = document.getElementById("title");
+const authorInput = document.getElementById("author");
+const pagesInput = document.getElementById("pages")
+
 
 // OPEN DIALOG
 showNewBtn.addEventListener("click", () => {
@@ -182,27 +187,43 @@ showNewBtn.addEventListener("click", () => {
 
 
 
-// FORM SUBMIT
+// form submit with custom validation
 form.addEventListener("submit", (e) => {
+    // reset custom validity before checking
+    authorInput.setCustomValidity("");
+    titleInput.setCustomValidity("");
+    pagesInput.setCustomValidity("");
 
+    // check for empty fields and apply custom messages
+    if(!authorInput.value.trim()){
+        authorInput.setCustomValidity("The authur name must be filled");
+    }
+    if(!titleInput.value.trim()){
+        titleInput.setCustomValidity("The book title must be filled")
+    }
+    if(!pagesInput.value || pagesInput.value <= 0){
+        pagesInput.setCustomValidity("Please enter a valid page number")
+    }
+
+    // trigger native browser validation ui if invalid
+    if(!form.checkValidity()){
+         e.preventDefault(); //stop form submission
+         form.reportValidity();
+         return;
+    }
+
+    // if valid proceed with adding book
     e.preventDefault();
 
+    const title = titleInput.value;
 
+    const author = authorInput.value;
 
-    const title =
-        document.querySelector("#title").value;
+    const pages = pagesInput.value;
 
-    const author =
-        document.querySelector("#author").value;
+    const description =  document.getElementById("description").value;
 
-    const pages =
-        document.querySelector("#pages").value;
-
-    const description =
-        document.querySelector("#description").value;
-
-    const read =
-        document.querySelector("#read-status").checked;
+    const read = document.getElementById("read-status").checked;
 
 
 
@@ -214,10 +235,7 @@ form.addEventListener("submit", (e) => {
         read
     );
 
-
-
     form.reset();
-
     dialog.close();
 });
 
